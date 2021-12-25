@@ -1,6 +1,30 @@
-.test {
-    font-size: 50px;
-    background-color: lightblue;
-    border: 5px solid black;
-    border-radius: 15px;
+* {
+    text-align: center;
+}
+
+.title {
+    border-bottom: black 5px solid;
+}
+
+.main-body {
+    display: flex;
+}
+
+.forecast {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dailyForecast {
+    flex-basis: 30%;
+    height: 200px;
+    background-color: rgb(159, 198, 250) ;
+    margin: 5px auto;
+    border: rgb(71, 71, 71) 5px solid;
+    border-radius: 10px;
+}
+
+.input {
+    height: 500px;
+    margin-bottom: 0;
 }
