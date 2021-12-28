@@ -1,17 +1,23 @@
-var date = moment().format('L');
-console.log(date);
+// Global Variables
+let date = moment().format('L');
+const SaveCityKey = 'City';
 
 // Get the weather for the desired City
 function weather(cityName) {
-  var key = '5a84980c7b7b783f90dce101ba33a6f6';
-  fetch('https://api.openweathermap.org/data/2.5/forecast?q=' + cityName+ '&units=metric&appid=' + key)
+  // Make sure there is a city name
+  if (cityName === ''){
+    console.log('error')
+    return
+  }
+  const APIkey = '5a84980c7b7b783f90dce101ba33a6f6';
+  fetch('https://api.openweathermap.org/data/2.5/forecast?q=' + cityName + '&units=metric&appid=' + APIkey)
   // Convert data to json
   .then(function(resp) { return resp.json() })
   .then(function(data) {
-    console.log(data)
-    console.log(data.list[0].main.temp);
-    loadForecast(data)
+    loadForecast(data);
+    saveCity(cityName);
   })
+  // Catch errors
   .catch(function() {
     console.log('Invalid City')
   });
@@ -19,34 +25,60 @@ function weather(cityName) {
 
 // Create the Daily Forecast divs 
 function loadForecast(data) {
-  for (var i=0; i<6; i++){
-    var info = [
-      data.list[i].weather.icon,
-      data.list[i].main.temp,
-      data.list[i].wind.speed,
-      data.list[i].main.humidity
-    ];
-    $('#forecast').append(`<div class='dailyForecast' id='${i}'></div>`)
-    $(`#${i}`).append(`<h3 class='forecastdate' id='${i}date'>${date}</h3>`);
-    $(`#${i}`).append(`<img class='forecastIcon' id='${i}' src=${info[0]}/>`);
-    $(`#${i}`).append(`<p class='forecastTemp' id='${i}temp'>Temp:${info[1]}°C</p>`);
-    $(`#${i}`).append(`<p class='forecastWind' id='${i}wind'>Wind:${info[2]} KPH</p>`);
-    $(`#${i}`).append(`<p class='forecastHumid' id='${i}humid'>Humidity:${info[3]}%</p>`);
+  // Create divs if none
+  if ( $('#forecast').children().length == 0 ){
+    for (let i=0; i<6; i++){
+      let day = moment().add(i, 'days').format('L')
+      $('#forecast').append(`<div class='dailyForecast' id='forecast${i}'></div>`)
+      $(`#forecast${i}`).append(`<h3 class='forecastdate' id='date${i}'>${day}</h3>`);
+      $(`#forecast${i}`).append(`<p class='forecastTemp' id='temp${i}'>Temp: ${data.list[i].main.temp}°C</p>`);
+      $(`#forecast${i}`).append(`<p class='forecastWind' id='wind${i}'>Wind: ${data.list[i].wind.speed} KPH</p>`);
+      $(`#forecast${i}`).append(`<p class='forecastHumid' id='humid${i}'>Humidity: ${data.list[i].main.humidity}%</p>`);
+    };
+  }
+  // Rewrite content if there are divs 
+  else {
+    for (let i=0; i<6; i++){
+      let day = moment().add(i, 'days').format('L')
+      document.getElementById(`date${i}`).innerHTML = day;
+      document.getElementById(`temp${i}`).innerHTML = `Temp: ${data.list[i].main.temp}`;
+      document.getElementById(`wind${i}`).innerHTML = `Wind: ${data.list[i].wind.speed}`;
+      document.getElementById(`humid${i}`).innerHTML = `Humidity: ${data.list[i].main.humidity}`;
+    }
   }
 }
 
+// Change/Update the date at the top of the page
 function changeDate() {
-  var dateText = document.getElementById('date');
+  let dateText = document.getElementById('date');
   dateText.innerHTML = date;
 }
 
-weather('London')
-changeDate();
-loadForecast()
+// Save the city name of inputted city to local storage
+function saveCity(cityName) {
+  let numberOfCities = localStorage.length;
+  localStorage.setItem(SaveCityKey + cityName, cityName);
+  // Check if a new city was added, if user inputs same city, don't create a new button
+  if (numberOfCities != localStorage.length) {
+    // Create new button for new saved city
+    $('#buttons').append(`<button class='btn btn-primary btn-m' id='${cityName}'>${cityName}</button>`);
+    newListener(cityName);
+  }  
+}
 
 // Event Listeners
-$('#add-city').click(function() {
-  console.log('pressed')
-})
+// Create Event Listener Function
+function newListener(cityName) {
+  let newButton = document.getElementById(`${cityName}`);
+  newButton.addEventListener('click', function() {weather(newButton.innerHTML)});
+}
+// Add City button
+let newCity = document.getElementById('add-city');
+newCity.addEventListener('click', function(){
+  let cityName = document.getElementById('city').value;
+  weather(cityName);
+  console.log(cityName)
+});
 
-//API KEY 5a84980c7b7b783f90dce101ba33a6f6
+// Run on load
+changeDate();
