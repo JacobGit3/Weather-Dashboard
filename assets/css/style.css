@@ -28,3 +28,12 @@
     height: 500px;
     margin-bottom: 0;
 }
+
+.btn {
+    display: block;
+    margin: 5px auto;
+}
+
+.forecastIcon {
+    width: 25%;
+}
