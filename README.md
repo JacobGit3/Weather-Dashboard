@@ -42,4 +42,5 @@ Inital Code from Trilogy Education
 
 Adapted some Icon and UV code from Ward Vanlaar 
 Thanks for the help Ward!
-Here is a link to his repository - https://github.com/WardVanlaar/weather-dashboard
+Here is a link to his repository:
+https://github.com/WardVanlaar/weather-dashboard
