@@ -1,4 +1,5 @@
 * {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     text-align: center;
 }
 
@@ -16,12 +17,23 @@
 }
 
 .dailyForecast {
+    background-color: rgb(83, 152, 255);
     flex-basis: 30%;
     height: 200px;
-    background-color: rgb(159, 198, 250) ;
     margin: 5px auto;
-    border: rgb(71, 71, 71) 5px solid;
+    border: black 5px solid;
     border-radius: 10px;
+}
+
+.forecastDate {
+    border-bottom: 3px black solid;
+}
+
+.forecastText {
+    text-align: left;
+    margin: 5px 10px;
+    font-style: bold;
+    font-size: 18px;
 }
 
 .input {
@@ -32,8 +44,32 @@
 .btn {
     display: block;
     margin: 5px auto;
+    width: 100%;
 }
 
 .forecastIcon {
-    width: 25%;
+    width: 50px;
+    border: 3px solid black;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: rgb(226, 231, 238);
+}
+
+.UVIndex {
+    border: 3px solid black;
+    border-radius: 10px;
+    margin: 10px auto;
+    width: 30%;
+}
+
+.low {
+    background-color: rgb(27, 201, 27);
+}
+
+.medium {
+    background-color: rgb(242, 255, 61);
+}
+
+.high {
+    background-color: rgb(255, 24, 24);
 }
